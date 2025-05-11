@@ -52,21 +52,20 @@ where
 
 -- Exploratory Data Analysis
 
--- Q1. Find number of sales
+-- Q1. Find the number of sales and the number of customers
 select 
 	count(*) as total_sales 
 from 
 	retail_sales_table;
 
 
--- Q2. Find number of customers
 select 
 	count(distinct customer_id) as total_customers 
 from 
 	retail_sales_table;
 
 
--- Q3. Retrieve all columns for sales made on '2022-11-05':
+-- Q2. Retrieve all columns for sales made on '2022-11-05':
 select * 
 from 
 	retail_sales_table
@@ -74,7 +73,7 @@ where
 	sale_date = '2022-11-05';
 
 
--- Q4. Retrieve all transactions where the category is 'Clothing' 
+-- Q3. Retrieve all transactions where the category is 'Clothing' 
 -- and the quantity sold is more than or equal to 4 in the month of Nov-2022:
 select * 
 from 
@@ -87,7 +86,7 @@ where
 	quantity >= 4;
 
 
--- Q5. Calculate the total sales for each category:
+-- Q4. Calculate the total sales for each category:
 select
     category,
     sum(total_sale) as net_sale,
@@ -97,7 +96,7 @@ from
 group by 1;
 
 
--- Q6. Find the average age of customers who purchased items from the 'Beauty' category:
+-- Q5. Find the average age of customers who purchased items from the 'Beauty' category:
 select 
 	round(avg(age),1) as avg_age
 from 
@@ -106,7 +105,7 @@ where
 	category = 'Beauty';
 
 
--- Q7. Find all transactions where the total_sale is greater than 1000:
+-- Q6. Find all transactions where the total_sale is greater than 1000:
 select * 
 from 
 	retail_sales_table
@@ -114,7 +113,7 @@ where
 	total_sale >= 1000;
 
 
--- Q8. Find the total count of transactions made by each gender in each category:
+-- Q7. Find the total count of transactions made by each gender in each category:
 select 
 	category, 
 	gender,
@@ -127,7 +126,7 @@ order by
 	1, 2 desc;
 
 
--- Q9. Find the best selling month in each year:
+-- Q8. Find the best selling month in each year:
 select 
 	year, 
 	month, 
@@ -144,7 +143,7 @@ where
 	rank = 1;
 
 
--- Q10. Find the top 5 customers based on the highest total sales:
+-- Q9. Find the top 5 customers based on the highest total sales:
 select 
 	customer_id,
 	sum(total_sale) as total_sales
@@ -155,7 +154,7 @@ order by 2 desc
 limit 5;
 
 
--- Q11. Find the number of unique customers who purchased items from each category:
+-- Q10. Find the number of unique customers who purchased items from each category:
 select 
 	category,
 	count(distinct customer_id) as cnt_unique_cs
@@ -164,7 +163,7 @@ from
 group by 1;
 
 
--- Q12. Create time shifts and number of orders in each shift (Morning <12, Afternoon Between 12 & 17, Evening >17)
+-- Q11. Create time shifts and number of orders in each shift (Morning <12, Afternoon Between 12 & 17, Evening >17)
 with hourly_sale
 as 
 	(select 
