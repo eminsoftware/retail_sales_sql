@@ -1,6 +1,11 @@
+-- creating database
+
+create database retail_db;
+
+
 -- creating table
 
-create table retail_sales_table
+create table retail_tb
 (
 	transactions_id	int primary key,
 	sale_date date,
@@ -18,7 +23,7 @@ create table retail_sales_table
 
 -- identifying null values
 
-select * from retail_sales_table
+select * from retail_tb
 where 
 	transactions_id is null
 	or sale_date is null
@@ -34,7 +39,7 @@ where
 
 -- deleting null values
 
-delete from retail_sales_table
+delete from retail_tb
 where
 	transactions_id is null
 	or sale_date is null
@@ -56,19 +61,19 @@ where
 select 
 	count(*) as total_sales 
 from 
-	retail_sales_table;
+	retail_tb;
 
 
 select 
 	count(distinct customer_id) as total_customers 
 from 
-	retail_sales_table;
+	retail_tb;
 
 
 -- Q2. Retrieve all columns for sales made on '2022-11-05':
 select * 
 from 
-	retail_sales_table
+	retail_tb
 where 
 	sale_date = '2022-11-05';
 
@@ -77,7 +82,7 @@ where
 -- and the quantity sold is more than or equal to 4 in the month of Nov-2022:
 select * 
 from 
-	retail_sales_table 
+	retail_tb
 where 
 	category = 'Clothing'
 	and 
@@ -92,7 +97,7 @@ select
     sum(total_sale) as net_sale,
 	count(*) as total_orders
 from 
-	retail_sales_table
+	retail_tb
 group by 1;
 
 
@@ -100,7 +105,7 @@ group by 1;
 select 
 	round(avg(age),1) as avg_age
 from 
-	retail_sales_table 
+	retail_tb 
 where 
 	category = 'Beauty';
 
@@ -108,7 +113,7 @@ where
 -- Q6. Find all transactions where the total_sale is greater than 1000:
 select * 
 from 
-	retail_sales_table
+	retail_tb
 where 
 	total_sale >= 1000;
 
@@ -119,7 +124,7 @@ select
 	gender,
 	count(transactions_id)
 from 
-	retail_sales_table
+	retail_tb
 group by 
 	1, 2
 order by 
@@ -137,7 +142,7 @@ from
 		extract(month from sale_date) as month,
 		round(avg(total_sale)) as avg_sale,
 		rank() over(partition by extract(year from sale_date) order by avg(total_sale) desc) as rank
-	from retail_sales_table
+	from retail_tb
 	group by 1,2)
 where 
 	rank = 1;
@@ -148,7 +153,7 @@ select
 	customer_id,
 	sum(total_sale) as total_sales
 from 
-	retail_sales_table
+	retail_tb
 group by 1
 order by 2 desc
 limit 5;
@@ -159,7 +164,7 @@ select
 	category,
 	count(distinct customer_id) as cnt_unique_cs
 from 
-	retail_sales_table
+	retail_tb
 group by 1;
 
 
@@ -173,7 +178,7 @@ as
 			when extract(hour from sale_time) between 12 and 17 then 'Afternoon'
 			else 'Evening'
 		end as shift
-	from retail_sales_table)
+	from retail_tb)
 select 
 	shift,
 	count(*) as total_orders
